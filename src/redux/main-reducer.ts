@@ -1,7 +1,7 @@
 const initialState = {
     value: 0,
-    startValue: 5,
-    maxValue: 0,
+    startValue: 0,
+    maxValue: 5,
     messagePointer: false
 }
 
