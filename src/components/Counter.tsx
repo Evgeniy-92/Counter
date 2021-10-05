@@ -1,46 +1,55 @@
 import React from 'react';
 import s from './Counter.module.css'
 import {Button} from './Button';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppRootStateType} from '../redux/store';
+import {changeValueAC, incValueAC, InitialStateType} from '../redux/main-reducer';
 
 type CounterPropsType = {
-    value: number
-    maxValue: number
-    startValue: number
-    callbackIncValue: () => void
-    callbackResetValue: () => void
     error: boolean
-    message: boolean
 }
 
 export function Counter(props: CounterPropsType) {
-    const btnIncStyle = props.value === props.maxValue || props.error || props.message ? `${s.button} ${s.disabledBtn}` : s.button
-    const btnResetStyle = props.value === props.startValue || props.error || props.message ? `${s.button} ${s.disabledBtn}` : s.button
 
-    const disInc = props.value === props.maxValue || props.error || props.message
-    const disReset = props.value === props.startValue || props.error || props.message
-    const valueStyle = props.value === props.maxValue ? `${s.value} ${s.maxValue}` : s.value
+    const dispatch = useDispatch()
+    const state = useSelector<AppRootStateType, InitialStateType>(state => state.counterState)
 
-    let message = <span>{props.value}</span>
-    if (props.message) {
-        message = <span className={s.message}>enter values and press 'set'</span>
+    const incValue = () => {
+        dispatch(incValueAC(state.value))
+    }
+
+    const resetValue = () => {
+        dispatch(changeValueAC(state.startValue))
+    }
+
+    const btnIncStyle = state.value === state.maxValue || props.error || state.messagePointer ? `${s.button} ${s.disabledBtn}` : s.button
+    const btnResetStyle = state.value === state.startValue || props.error || state.messagePointer ? `${s.button} ${s.disabledBtn}` : s.button
+
+    const disInc = state.value === state.maxValue || props.error || state.messagePointer
+    const disReset = state.value === state.startValue || props.error || state.messagePointer
+    const valueStyle = state.value === state.maxValue ? `${s.value} ${s.maxValue}` : s.value
+
+    let element = <span>{state.value}</span>
+    if (state.messagePointer) {
+        element = <span className={s.message}>enter values and press 'set'</span>
     }
     if (props.error) {
-        message = <span className={s.error}>Incorrect value!</span>
+        element = <span className={s.error}>Incorrect value!</span>
     }
 
     return (
         <div className={s.counterWrapper}>
-            <div className={valueStyle}>{message}</div>
-            <div className={s.buttons}>
+            <div className={valueStyle}>{element}</div>
+            <div className={`${s.buttons} ${s.buttonsCounter}`}>
                 <Button valueBtn={'inc'}
                         disabledBtn={disInc}
                         classNameBtn={btnIncStyle}
-                        onClickBtn={props.callbackIncValue}
+                        onClickBtn={incValue}
                 />
                 <Button valueBtn={'reset'}
                         disabledBtn={disReset}
                         classNameBtn={btnResetStyle}
-                        onClickBtn={props.callbackResetValue}
+                        onClickBtn={resetValue}
                 />
             </div>
         </div>

@@ -1,90 +1,53 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {Counter} from './components/Counter';
-import { Counter1 } from './components/Counter1';
+import { CounterInstallation } from './components/CounterInstallation';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppRootStateType} from './redux/store';
+import {
+    changeMaxValueAC,
+    changeStartValueAC,
+    changeValueAC,
+    InitialStateType,
+} from './redux/main-reducer';
 
 function App() {
 
-    let [value, setValue] = useState(0)
-    let [startValue, setStartValue] = useState(0)
-    let [maxValue, setMaxValue] = useState(0)
-    let [message, setMessage] = useState(false)
+    const dispatch = useDispatch()
+    const state = useSelector<AppRootStateType, InitialStateType>(state => state.counterState)
 
-    let error = startValue >= maxValue || startValue < 0 || maxValue < 0
+    let error = state.startValue >= state.maxValue || state.startValue < 0 || state.maxValue < 0
 
     useEffect(() => {
         const maxValueAsString = localStorage.getItem('maxValue')
         if (maxValueAsString) {
             const value = JSON.parse(maxValueAsString)
-            setMaxValue(value)
+            dispatch(changeMaxValueAC(value))
         }
         const startValueAsString = localStorage.getItem('startValue')
         if (startValueAsString) {
             const value = JSON.parse(startValueAsString)
-            setStartValue(value)
-            setValue(value)
+            dispatch(changeStartValueAC(value))
+            dispatch(changeValueAC(value))
         }
     }, [])
 
     useEffect(() => {
-        localStorage.setItem('maxValue', JSON.stringify(maxValue))
-    }, [maxValue])
+        localStorage.setItem('maxValue', JSON.stringify(state.maxValue))
+    }, [state.maxValue])
 
     useEffect(() => {
-        localStorage.setItem('startValue', JSON.stringify(startValue))
-    },[startValue])
-    console.log(message)
-
-
-
-    const getStartValueHandler = () => {
-        const valueAsString = localStorage.getItem('startValue')
-        if (valueAsString) {
-            const newValue = JSON.parse(valueAsString)
-            setValue(newValue)
-        }
-        setMessage(false)
-    }
-
-    const incValue = () => {
-        setValue(++value)
-    }
-
-    const resetValue = () => {
-        setValue(startValue)
-    }
-
-    const changeStartValue = (newValue: number) => {
-        setStartValue(newValue)
-        setMessage(true)
-    }
-
-    const changeMaxValue = (newValue: number) => {
-        setMaxValue(+newValue)
-        setMessage(true)
-    }
+        localStorage.setItem('startValue', JSON.stringify(state.startValue))
+    },[state.startValue])
+    console.log(state.messagePointer)
 
     return (
         <div className='appWrapper'>
-            <Counter1
-                startValue={startValue}
-                maxValue={maxValue}
-                callbackIncValue={incValue}
-                callbackResetValue={resetValue}
-                callbackChangeStartValue={changeStartValue}
-                callbackChangeMaxValue={changeMaxValue}
-                getStartValueHandler={getStartValueHandler}
+            <CounterInstallation
                 error={error}
-                message={message}
             />
             <Counter
-                value={value}
-                maxValue={maxValue}
-                startValue={startValue}
-                callbackIncValue={incValue}
-                callbackResetValue={resetValue}
                 error={error}
-                message={message}
             />
 
         </div>
