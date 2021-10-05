@@ -1,28 +1,31 @@
 .counterWrapper {
-    border: 4px solid #6CE4F9;
-    width: 450px;
-    height: 350px;
+    border: 4px solid #b28dcb;
+    width: 550px;
+    height: 450px;
     padding: 20px;
     border-radius: 10px;
     box-sizing: border-box;
 }
 
 .value {
-    background-color: #6CE4F9;
-    font-size: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 238px;
+    border: 4px solid #b28dcb;
+    font-size: 115px;
     font-weight: bold;
-    color: #282c34;
-    padding: 23px;
-    text-align: center;
+    color: #b28dcb;
+    padding: 10px;
     border-radius: 10px;
     margin-bottom: 20px;
-
 }
 
 .buttons {
     display: flex;
-    justify-content: space-between;
-    border: 4px solid #6CE4F9;
+    justify-content: center;
+    border: 4px solid #b28dcb;
     border-radius: 10px;
     text-align: center;
     padding: 20px;
@@ -33,16 +36,82 @@
     font-size: 59px;
     color: #282c34;
     padding: 0 23px;
-    background-color: #6CE4F9;
+    background-color: #b28dcb;
     border: none;
     border-radius: 10px;
+    border: 4px solid #b28dcb;
+    transition: all 0.3s ease 0s;
+}
+
+.button:not(:first-child) {
+    margin-left: 115px;
+}
+
+.button:hover {
+    cursor: pointer;
+    background-color: #282c34;
+    color: #b28dcb;
+}
+
+.button:active {
+    color: #2f343d;
+    border: 4px solid #2f343d;
 }
 
 .maxValue {
     color: #a50202;
 }
 
+.error {
+    color: #a50202;
+    font-size: 35px;
+}
+
+.message {
+    font-size: 35px;
+}
+
+
 .disabledBtn {
-    opacity: 0.5;
+    background-color: #282c34;
+    color: #3a414b;
+    border: 4px solid #3a414b;
+}
+.disabledBtn:hover {
+    color: #3a414b;
+}
+
+.installationInputStyle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 39px;
+    padding: 0px;
+    text-align: start;
+}
+
+.inputStyle {
+    width: 190px;
+    height: 37px;
+    border: 4px solid #b28dcb;
+    border-radius: 6px;
+    outline: none;
+    text-align: center;
+    font-size: 21px;
+    font-weight: 600;
+    color: #b28dcb;
+    background-color: #282c34;
+}
+
+.inputStyle::-webkit-inner-spin-button {
+    opacity: 1;
+    height: 37px;
+}
+
+.errorInput {
+    border: 4px solid #a50202;
+    background-color: #b94646;
+    color:  #282c34;
 }
 

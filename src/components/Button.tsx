@@ -13,7 +13,8 @@ export function Button(props: ButtonPropsType) {
                 onClick={() => {
                     props.onClickBtn()
                 }}
-                disabled={props.disabledBtn}>{props.valueBtn}
+                disabled={props.disabledBtn}>
+            {props.valueBtn}
         </button>
     )
 }
